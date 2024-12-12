@@ -7,10 +7,8 @@ import 'package:flutter/material.dart';
 class HomeAppBarAction extends StatefulWidget {
   const HomeAppBarAction({
     super.key,
-    required this.scrWidth,
   });
 
-  final double scrWidth;
 
   @override
   State<HomeAppBarAction> createState() => _HomeAppBarActionState();
@@ -36,6 +34,7 @@ class _HomeAppBarActionState extends State<HomeAppBarAction> {
 
   @override
   Widget build(BuildContext context) {
+    double scrWidth = context.mediaQueryWidth;
     return BouncingButtonWidget(
       child: GestureDetector(
         onTap: () {
@@ -52,7 +51,7 @@ class _HomeAppBarActionState extends State<HomeAppBarAction> {
               return Row(
                 children: [
                   const CircularProgressIndicator(),
-                  (widget.scrWidth * 0.05).width,
+                  (scrWidth * 0.05).width,
                 ],
               );
             }
@@ -61,7 +60,7 @@ class _HomeAppBarActionState extends State<HomeAppBarAction> {
               return Row(
                 children: [
                   const Text("Error"),
-                  (widget.scrWidth * 0.05).width,
+                  (scrWidth * 0.05).width,
                 ],
               );
             }
@@ -73,14 +72,14 @@ class _HomeAppBarActionState extends State<HomeAppBarAction> {
             return Row(
               children: [
                 Text(name),
-                (widget.scrWidth * 0.02).width,
+                (scrWidth * 0.02).width,
                 CircleAvatar(
                   backgroundImage: image.isNotEmpty
                       ? NetworkImage(image)
                       : const AssetImage("assets/default_avatar.png")
                           as ImageProvider,
                 ),
-                (widget.scrWidth * 0.05).width,
+                (scrWidth * 0.05).width,
               ],
             );
           },

@@ -1,7 +1,6 @@
 import 'package:cloudocz_technical_test_app/features/home/view/widgets/home_app_bar_action.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:cloudocz_technical_test_app/extensions/mediaquery_extension.dart';
 import 'package:cloudocz_technical_test_app/features/home/view/widgets/task_data_state.dart';
 import 'package:cloudocz_technical_test_app/features/home/view_model/homescreen_view_model.dart';
 
@@ -26,14 +25,14 @@ class _HomescreenState extends State<Homescreen> {
 
   @override
   Widget build(BuildContext context) {
-    double scrWidth = context.mediaQueryWidth;
-    double scrHeight = context.mediaQueryHeight;
 
     return SafeArea(
       child: Scaffold(
         appBar: AppBar(
-          title: Text("Task"),
-          actions: [HomeAppBarAction(scrWidth: scrWidth)],
+          title: const Text("Task"),
+          actions: const [
+            HomeAppBarAction(),
+          ],
         ),
         floatingActionButton: FloatingActionButton(
           onPressed: () {
@@ -42,19 +41,18 @@ class _HomescreenState extends State<Homescreen> {
           tooltip: "Add Task",
           child: const Icon(Icons.add),
         ),
-        body: TaskDataState(scrWidth: scrWidth, scrHeight: scrHeight),
+        body: const TaskDataState(),
       ),
     );
   }
 
-  /// Displays a BottomSheet for creating a new task
   void _showTaskCreationBottomSheet(BuildContext context) {
     final homescreenViewModel =
         Provider.of<HomescreenViewModel>(context, listen: false);
 
     showModalBottomSheet(
       context: context,
-      isScrollControlled: true, // Allows the bottom sheet to take more space
+      isScrollControlled: true,
       shape: const RoundedRectangleBorder(
         borderRadius: BorderRadius.vertical(top: Radius.circular(20)),
       ),

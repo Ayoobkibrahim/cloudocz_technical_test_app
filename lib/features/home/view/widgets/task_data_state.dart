@@ -9,15 +9,12 @@ import 'package:provider/provider.dart';
 class TaskDataState extends StatelessWidget {
   const TaskDataState({
     super.key,
-    required this.scrWidth,
-    required this.scrHeight,
   });
-
-  final double scrWidth;
-  final double scrHeight;
 
   @override
   Widget build(BuildContext context) {
+    double scrHeight = context.mediaQueryHeight;
+    double scrWidth = context.mediaQueryWidth;
     return Selector<HomescreenViewModel, List<TaskData>>(
       selector: (p0, p1) => p1.taskList,
       builder: (context, value, child) {
@@ -41,11 +38,11 @@ class TaskDataState extends StatelessWidget {
                 },
                 child: BouncingButtonWidget(
                   child: Container(
-                    // height: scrHeight * 0.1,
                     width: scrWidth * 0.8,
                     decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(7),
-                        color: const Color.fromARGB(255, 207, 204, 204)),
+                      borderRadius: BorderRadius.circular(7),
+                      color: const Color.fromARGB(255, 207, 204, 204),
+                    ),
                     child: Padding(
                       padding: const EdgeInsets.symmetric(
                           horizontal: 16, vertical: 20),

@@ -18,13 +18,10 @@ class _LoginScreenState extends State<LoginScreen> {
   @override
   Widget build(BuildContext context) {
     double scrHeight = context.mediaQueryHeight;
+    double scrWidth = context.mediaQueryWidth;
     final loginViewModel = Provider.of<LoginViewModel>(context);
 
     return Scaffold(
-      appBar: AppBar(
-        title: const Text("Login"),
-        centerTitle: true,
-      ),
       body: Padding(
         padding: const EdgeInsets.all(16.0),
         child: Form(
@@ -32,6 +29,11 @@ class _LoginScreenState extends State<LoginScreen> {
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
+              Text(
+                "Login",
+                style: context.textTheme.headlineLarge,
+              ),
+              (scrHeight * 0.1).height,
               TextFormField(
                 controller: usernameController,
                 decoration: const InputDecoration(
@@ -72,8 +74,8 @@ class _LoginScreenState extends State<LoginScreen> {
               (scrHeight * 0.016).height,
               loginViewModel.isLoading
                   ? const CircularProgressIndicator()
-                  : ElevatedButton(
-                      onPressed: () async {
+                  : GestureDetector(
+                      onTap: () async {
                         if (_formKey.currentState!.validate()) {
                           final success = await loginViewModel.login(
                             usernameController.text.trim(),
@@ -88,7 +90,22 @@ class _LoginScreenState extends State<LoginScreen> {
                           }
                         }
                       },
-                      child: const Text("Login"),
+                      child: Container(
+                        width: scrWidth,
+                        height: scrHeight * 0.05,
+                        decoration: BoxDecoration(
+                          color: Colors.cyan,
+                          borderRadius: BorderRadius.circular(20),
+                        ),
+                        child: Center(
+                          child: Text(
+                            "Login",
+                            style: context.textTheme.headlineSmall?.copyWith(
+                              color: Colors.white,
+                            ),
+                          ),
+                        ),
+                      ),
                     ),
             ],
           ),

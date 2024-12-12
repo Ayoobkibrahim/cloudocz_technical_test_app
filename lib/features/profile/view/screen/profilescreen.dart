@@ -1,9 +1,8 @@
-import 'package:cloudocz_technical_test_app/config/components/bouncing_button_widget.dart';
 import 'package:cloudocz_technical_test_app/data/local_storage.dart';
 import 'package:cloudocz_technical_test_app/extensions/mediaquery_extension.dart';
+import 'package:cloudocz_technical_test_app/features/profile/view/widgets/logout_button_widget.dart';
+import 'package:cloudocz_technical_test_app/features/profile/view/widgets/profile_task_details.dart';
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
-import 'package:cloudocz_technical_test_app/features/authentication/view_model/login_view_model.dart';
 
 class Profilescreen extends StatefulWidget {
   const Profilescreen({super.key});
@@ -39,7 +38,6 @@ class _ProfilescreenState extends State<Profilescreen> {
   @override
   Widget build(BuildContext context) {
     double scrHeight = context.mediaQueryHeight;
-    double scrWidth = context.mediaQueryWidth;
 
     return SafeArea(
       child: Scaffold(
@@ -103,80 +101,16 @@ class _ProfilescreenState extends State<Profilescreen> {
                             ),
                           ),
                           const SizedBox(height: 15),
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceAround,
-                            children: [
-                              Column(
-                                children: [
-                                  Text(
-                                    "Tasks",
-                                    style: TextStyle(
-                                      fontSize: scrHeight * 0.018,
-                                      fontWeight: FontWeight.w500,
-                                    ),
-                                  ),
-                                  Text(
-                                    tasks,
-                                    style: TextStyle(
-                                      fontSize: scrHeight * 0.018,
-                                      fontWeight: FontWeight.bold,
-                                    ),
-                                  ),
-                                ],
-                              ),
-                              Column(
-                                children: [
-                                  Text(
-                                    "Progress",
-                                    style: TextStyle(
-                                      fontSize: scrHeight * 0.018,
-                                      fontWeight: FontWeight.w500,
-                                    ),
-                                  ),
-                                  Text(
-                                    "$percentage%",
-                                    style: TextStyle(
-                                      fontSize: scrHeight * 0.018,
-                                      fontWeight: FontWeight.bold,
-                                    ),
-                                  ),
-                                ],
-                              ),
-                            ],
+                          ProfileTaskDetails(
+                            tasks: tasks,
+                            percentage: percentage,
                           ),
                         ],
                       ),
                     ),
                   ),
                 ),
-                Padding(
-                  padding: const EdgeInsets.all(23),
-                  child: GestureDetector(
-                    onTap: () {
-                      context.read<LoginViewModel>().logout(context);
-                    },
-                    child: BouncingButtonWidget(
-                      child: Container(
-                        height: scrHeight * 0.07,
-                        width: scrWidth,
-                        decoration: BoxDecoration(
-                          color: Colors.amber,
-                          borderRadius: BorderRadius.circular(12),
-                        ),
-                        child: Center(
-                          child: Text(
-                            "Logout",
-                            style: context.textTheme.bodyMedium?.copyWith(
-                              color: Colors.white,
-                              fontSize: scrHeight * 0.018,
-                              fontWeight: FontWeight.w600,
-                            ),
-                          ),
-                        ),
-                      ),
-                    ),
-                  ),
-                ),
+                const LogoutButtonWidget(),
               ],
             );
           },
