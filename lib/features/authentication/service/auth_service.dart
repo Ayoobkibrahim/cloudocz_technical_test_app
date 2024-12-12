@@ -28,7 +28,7 @@ class AuthService {
         return null;
       }
     } catch (e) {
-      throw Exception(e.toString());
+      throw ('Something went wrong');
     }
   }
 }

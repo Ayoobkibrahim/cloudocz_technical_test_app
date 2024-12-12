@@ -6,7 +6,8 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 void main() async {
-  WidgetsFlutterBinding.ensureInitialized(); // Required for async initialization
+  WidgetsFlutterBinding
+      .ensureInitialized(); // Required for async initialization
 
   final loginViewModel = LoginViewModel();
   await loginViewModel.checkLoginStatus();
@@ -17,7 +18,10 @@ void main() async {
 class MyApp extends StatelessWidget {
   final LoginViewModel loginViewModel;
 
-  MyApp({required this.loginViewModel});
+  const MyApp({
+    super.key,
+    required this.loginViewModel,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -32,9 +36,11 @@ class MyApp extends StatelessWidget {
         theme: ThemeData(
           primarySwatch: Colors.blue,
         ),
-        home: loginViewModel.isLoggedIn ? Homescreen() : LoginScreen(),
+        home: loginViewModel.isLoggedIn
+            ? const Homescreen()
+            : const LoginScreen(),
         routes: {
-          '/homepage': (context) => Homescreen(),
+          '/homepage': (context) => const Homescreen(),
         },
       ),
     );

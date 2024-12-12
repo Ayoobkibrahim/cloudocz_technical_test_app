@@ -1,8 +1,11 @@
+import 'package:cloudocz_technical_test_app/extensions/mediaquery_extension.dart';
 import 'package:cloudocz_technical_test_app/features/authentication/view_model/login_view_model.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 class LoginScreen extends StatefulWidget {
+  const LoginScreen({super.key});
+
   @override
   _LoginScreenState createState() => _LoginScreenState();
 }
@@ -14,10 +17,14 @@ class _LoginScreenState extends State<LoginScreen> {
 
   @override
   Widget build(BuildContext context) {
+    double scrHeight = context.mediaQueryHeight;
     final loginViewModel = Provider.of<LoginViewModel>(context);
 
     return Scaffold(
-      appBar: AppBar(title: Text("Login"), centerTitle: true),
+      appBar: AppBar(
+        title: const Text("Login"),
+        centerTitle: true,
+      ),
       body: Padding(
         padding: const EdgeInsets.all(16.0),
         child: Form(
@@ -27,7 +34,7 @@ class _LoginScreenState extends State<LoginScreen> {
             children: [
               TextFormField(
                 controller: usernameController,
-                decoration: InputDecoration(
+                decoration: const InputDecoration(
                   labelText: "Username",
                   border: OutlineInputBorder(),
                 ),
@@ -38,11 +45,11 @@ class _LoginScreenState extends State<LoginScreen> {
                   return null;
                 },
               ),
-              SizedBox(height: 16),
+              (scrHeight * 0.016).height,
               TextFormField(
                 controller: passwordController,
                 obscureText: true,
-                decoration: InputDecoration(
+                decoration: const InputDecoration(
                   labelText: "Password",
                   border: OutlineInputBorder(),
                 ),
@@ -56,15 +63,15 @@ class _LoginScreenState extends State<LoginScreen> {
                   return null;
                 },
               ),
-              SizedBox(height: 16),
+              (scrHeight * 0.016).height,
               if (loginViewModel.errorMessage != null)
                 Text(
                   loginViewModel.errorMessage!,
-                  style: TextStyle(color: Colors.red),
+                  style: const TextStyle(color: Colors.red),
                 ),
-              SizedBox(height: 16),
+              (scrHeight * 0.016).height,
               loginViewModel.isLoading
-                  ? CircularProgressIndicator()
+                  ? const CircularProgressIndicator()
                   : ElevatedButton(
                       onPressed: () async {
                         if (_formKey.currentState!.validate()) {
@@ -74,11 +81,14 @@ class _LoginScreenState extends State<LoginScreen> {
                           );
 
                           if (success == true) {
-                            Navigator.pushReplacementNamed(context, '/homepage');
+                            Navigator.pushReplacementNamed(
+                              context,
+                              '/homepage',
+                            );
                           }
                         }
                       },
-                      child: Text("Login"),
+                      child: const Text("Login"),
                     ),
             ],
           ),

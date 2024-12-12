@@ -1,6 +1,5 @@
 import 'package:cloudocz_technical_test_app/config/components/bouncing_button_widget.dart';
 import 'package:cloudocz_technical_test_app/extensions/mediaquery_extension.dart';
-import 'package:cloudocz_technical_test_app/features/home/model/task_model.dart';
 import 'package:cloudocz_technical_test_app/features/home/view_model/homescreen_view_model.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
