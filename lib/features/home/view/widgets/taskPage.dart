@@ -18,7 +18,7 @@ class Taskpage extends StatelessWidget {
   final int percentage;
   final int id;
 
-  final _formKey = GlobalKey<FormState>(); // Form key for validation
+  final _formKey = GlobalKey<FormState>(); 
 
   @override
   Widget build(BuildContext context) {
@@ -92,7 +92,6 @@ class Taskpage extends StatelessWidget {
                 ),
               ),
             ),
-            // Delete Button
             deleteLoading
                 ? const Center(
                     child: Column(
@@ -159,7 +158,7 @@ class Taskpage extends StatelessWidget {
       description: desc,
       status: status,
       percentage: percentage,
-      deadline: '', // Initialize the deadline field if needed
+      deadline: '', 
     );
 
     showModalBottomSheet(
@@ -203,7 +202,6 @@ class Taskpage extends StatelessWidget {
                       ),
                     ),
                     const SizedBox(height: 20),
-                    // Task Details Card
                     Card(
                       elevation: 2,
                       margin: EdgeInsets.zero,
@@ -256,7 +254,6 @@ class Taskpage extends StatelessWidget {
                       ),
                     ),
                     const SizedBox(height: 20),
-                    // Task Progress & Deadline Card
                     Card(
                       elevation: 2,
                       margin: EdgeInsets.zero,
@@ -352,7 +349,7 @@ class Taskpage extends StatelessWidget {
                         ),
                       ),
                     ),
-                    const SizedBox(height: 80), // Space for buttons
+                    const SizedBox(height: 80), 
                   ],
                 ),
                 Positioned(

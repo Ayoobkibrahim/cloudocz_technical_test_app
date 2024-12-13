@@ -49,7 +49,7 @@ class _HomescreenState extends State<Homescreen> {
   final homescreenViewModel =
       Provider.of<HomescreenViewModel>(context, listen: false);
 
-  final _formKey = GlobalKey<FormState>();
+  final formKey = GlobalKey<FormState>();
 
   showModalBottomSheet(
     context: context,
@@ -66,12 +66,12 @@ class _HomescreenState extends State<Homescreen> {
           bottom: MediaQuery.of(context).viewInsets.bottom + 20,
         ),
         child: Form(
-          key: _formKey,
+          key: formKey,
           child: Stack(
             children: [
               Column(
                 mainAxisSize: MainAxisSize.min,
-                crossAxisAlignment: CrossAxisAlignment.start,
+                crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
                   Center(
                     child: Container(
@@ -92,7 +92,6 @@ class _HomescreenState extends State<Homescreen> {
                     ),
                   ),
                   const SizedBox(height: 20),
-                  // Task Details Card
                   Card(
                     elevation: 2,
                     margin: EdgeInsets.zero,
@@ -145,7 +144,6 @@ class _HomescreenState extends State<Homescreen> {
                     ),
                   ),
                   const SizedBox(height: 20),
-                  // Task Progress & Deadline Card
                   Card(
                     elevation: 2,
                     margin: EdgeInsets.zero,
@@ -240,7 +238,7 @@ class _HomescreenState extends State<Homescreen> {
                       ),
                     ),
                   ),
-                  const SizedBox(height: 80), // Space for buttons
+                  const SizedBox(height: 80), 
                 ],
               ),
               Positioned(
@@ -264,7 +262,7 @@ class _HomescreenState extends State<Homescreen> {
                     ),
                     ElevatedButton.icon(
                       onPressed: () {
-                        if (_formKey.currentState!.validate()) {
+                        if (formKey.currentState!.validate()) {
                           homescreenViewModel.createTask(context);
                           Navigator.of(context).pop();
                         }

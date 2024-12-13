@@ -49,7 +49,7 @@ class _HomeAppBarActionState extends State<HomeAppBarAction> {
             if (snapshot.connectionState == ConnectionState.waiting) {
               return Row(
                 children: [
-                  CircularProgressIndicator(
+                  const CircularProgressIndicator(
                     strokeWidth: 2,
                     color: Colors.blueAccent,
                   ),
@@ -91,21 +91,12 @@ class _HomeAppBarActionState extends State<HomeAppBarAction> {
                     begin: Alignment.topLeft,
                     end: Alignment.bottomRight,
                   ),
-                  // boxShadow: [
-                  //   BoxShadow(
-                  //     color: Colors.grey.withOpacity(0.3),
-                  //     blurRadius: 10,
-                  //     spreadRadius: 2,
-                  //     offset: const Offset(0, 4),
-                  //   ),
-                  // ],
                 ),
                 child: Padding(
-                  padding: EdgeInsets.symmetric(horizontal: 10),
+                  padding: const EdgeInsets.symmetric(horizontal: 10),
                   child: Row(
                     children: [
                       (scrWidth * 0.01).width,
-                      // Greeting and Name
                       Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
@@ -129,7 +120,7 @@ class _HomeAppBarActionState extends State<HomeAppBarAction> {
                       ),
                       SizedBox(width: scrWidth * 0.02),
 
-                      // Avatar with Border
+                      
                       Container(
                         decoration: BoxDecoration(
                           shape: BoxShape.circle,

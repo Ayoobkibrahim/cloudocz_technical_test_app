@@ -12,7 +12,7 @@ class AuthService {
         Uri.parse(baseUrl),
         headers: {
           "Accept": "application/json",
-          "Content-Type": "application/json", // Ensure this is added
+          "Content-Type": "application/json", 
         },
         body: jsonEncode({
           "email": username,

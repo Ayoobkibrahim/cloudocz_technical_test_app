@@ -85,11 +85,9 @@ class TaskDataState extends StatelessWidget {
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      // Task Header Row (Name and Status)
                       Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
-                          // Task Name
                           Expanded(
                             child: Text(
                               task.name,
@@ -126,7 +124,6 @@ class TaskDataState extends StatelessWidget {
                       ),
                       const SizedBox(height: 8),
 
-                      // Task Description
                       Text(
                         task.description,
                         style: TextStyle(
@@ -138,11 +135,9 @@ class TaskDataState extends StatelessWidget {
                       ),
                       const SizedBox(height: 12),
 
-                      // Footer Row (Percentage)
                       Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
-                          // Task ID or Additional Info
                           Text(
                             "Task ID: ${task.id}",
                             style: TextStyle(
@@ -151,7 +146,6 @@ class TaskDataState extends StatelessWidget {
                               fontStyle: FontStyle.italic,
                             ),
                           ),
-                          // Task Percentage
                           Row(
                             children: [
                               Text(

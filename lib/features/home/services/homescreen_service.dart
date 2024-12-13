@@ -8,7 +8,7 @@ class TaskService {
   final String baseUrl = "https://erpbeta.cloudocz.com/api/app/tasks";
   final LocalStorageService _localStorageService = LocalStorageService();
 
-  /// Fetch All Tasks
+
   Future<List<TaskData>> fetchTasks() async {
     try {
       final token = await _localStorageService.getToken();
@@ -34,7 +34,7 @@ class TaskService {
     }
   }
 
-  /// Create a Task
+
   Future<bool?> createTask(TaskData task) async {
     try {
       final token = await _localStorageService.getToken();
@@ -62,7 +62,7 @@ class TaskService {
     }
   }
 
-  /// Update a Task
+
   Future<bool?> updateTask(TaskData task, int id) async {
     try {
       final token = await _localStorageService.getToken();
@@ -89,7 +89,7 @@ class TaskService {
     return null;
   }
 
-  /// Delete a Task
+
   Future<bool?> deleteTask(int id) async {
     final token = await _localStorageService.getToken();
     if (token == null) throw Exception("No token found");

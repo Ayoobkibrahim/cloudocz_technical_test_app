@@ -1,3 +1,5 @@
+// ignore_for_file: use_build_context_synchronously
+
 import 'dart:developer';
 import 'package:cloudocz_technical_test_app/features/home/model/task_model.dart';
 import 'package:cloudocz_technical_test_app/features/home/services/homescreen_service.dart';
@@ -69,12 +71,12 @@ class HomescreenViewModel extends ChangeNotifier {
       }
 
       final task = TaskData(
-        id: 0, // Adjust as needed
+        id: 0, 
         name: taskName,
         description: taskDescription,
         status: taskStatus,
         percentage: taskPercentage,
-        deadline: taskDeadline, // Include deadline
+        deadline: taskDeadline,
       );
 
       final response = await taskService.createTask(task);
@@ -112,7 +114,7 @@ class HomescreenViewModel extends ChangeNotifier {
       }
 
       final task = TaskData(
-        id: taskId, // Set the existing task ID
+        id: taskId, 
         name: taskName,
         description: taskDescription,
         status: taskStatus,

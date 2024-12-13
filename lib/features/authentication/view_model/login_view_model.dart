@@ -1,4 +1,5 @@
-import 'dart:developer';
+
+// ignore_for_file: use_build_context_synchronously
 
 import 'package:cloudocz_technical_test_app/data/local_storage.dart';
 import 'package:cloudocz_technical_test_app/features/authentication/model/user_model.dart';
@@ -30,8 +31,6 @@ class LoginViewModel extends ChangeNotifier {
           _errorMessage = null;
           _setLoading(false);
           _userModel = response;
-          log(_userModel.toString());
-          // Save token locally
           await _localStorageService.saveToken(
               response.token,
               response.name,
@@ -64,9 +63,6 @@ class LoginViewModel extends ChangeNotifier {
     notifyListeners();
   }
 
-  //
-  //
-  /// Logout and clear token
   bool _isLoggedIn = false;
 
   bool get isLoggedIn => _isLoggedIn;
@@ -81,9 +77,8 @@ class LoginViewModel extends ChangeNotifier {
     final prefs = await SharedPreferences.getInstance();
     await prefs.remove('auth_token');
     _isLoggedIn = false;
-    // ignore: use_build_context_synchronously
     Navigator.of(context).pushReplacement(MaterialPageRoute(
-      builder: (context) => LoginScreen(),
+      builder: (context) => const LoginScreen(),
     ));
     notifyListeners();
   }

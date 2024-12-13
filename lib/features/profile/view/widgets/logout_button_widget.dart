@@ -61,36 +61,34 @@ class LogoutButtonWidget extends StatelessWidget {
             style: TextStyle(fontSize: 14),
           ),
           actions: [
-            // Cancel Button
             TextButton(
               onPressed: () {
-                Navigator.of(context).pop(); // Close the dialog
+                Navigator.of(context).pop();
               },
               child: const Text(
                 "Cancel",
                 style: TextStyle(color: Colors.grey),
               ),
             ),
-            // Confirm Logout Button
             ElevatedButton(
               onPressed: () {
-                Navigator.of(context).pop(); // Close the dialog
-                context
-                    .read<LoginViewModel>()
-                    .logout(context); // Perform logout
+                Navigator.of(context).pop();
+                context.read<LoginViewModel>().logout(context);
               },
               style: ElevatedButton.styleFrom(
                 backgroundColor: Colors.redAccent,
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(8),
                 ),
-                textStyle:
-                    context.textTheme.bodySmall?.copyWith(color: Colors.white),
+                textStyle: context.textTheme.bodySmall?.copyWith(
+                  color: Colors.white,
+                ),
               ),
               child: Text(
                 "Logout",
-                style:
-                    context.textTheme.bodySmall?.copyWith(color: Colors.white),
+                style: context.textTheme.bodySmall?.copyWith(
+                  color: Colors.white,
+                ),
               ),
             ),
           ],
