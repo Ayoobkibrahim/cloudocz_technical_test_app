@@ -1,4 +1,4 @@
-import 'package:cloudocz_technical_test_app/extensions/mediaquery_extension.dart';
+import 'package:cloudocz_technical_test_app/config/extensions/mediaquery_extension.dart';
 import 'package:flutter/material.dart';
 
 class ProfileTaskDetails extends StatelessWidget {
@@ -21,16 +21,16 @@ class ProfileTaskDetails extends StatelessWidget {
           children: [
             Text(
               "Tasks",
-              style: TextStyle(
+              style: context.textTheme.bodyMedium?.copyWith(
                 fontSize: scrHeight * 0.018,
-                fontWeight: FontWeight.w500,
+                fontWeight: FontWeight.w600,
               ),
             ),
             Text(
               tasks,
-              style: TextStyle(
+              style: context.textTheme.bodyMedium?.copyWith(
                 fontSize: scrHeight * 0.018,
-                fontWeight: FontWeight.bold,
+                fontWeight: FontWeight.w600,
               ),
             ),
           ],
@@ -39,16 +39,16 @@ class ProfileTaskDetails extends StatelessWidget {
           children: [
             Text(
               "Progress",
-              style: TextStyle(
+              style: context.textTheme.bodyMedium?.copyWith(
                 fontSize: scrHeight * 0.018,
-                fontWeight: FontWeight.w500,
+                fontWeight: FontWeight.w600,
               ),
             ),
             Text(
               "$percentage%",
-              style: TextStyle(
+              style: context.textTheme.bodyMedium?.copyWith(
                 fontSize: scrHeight * 0.018,
-                fontWeight: FontWeight.bold,
+                fontWeight: FontWeight.w600,
               ),
             ),
           ],

@@ -1,8 +1,6 @@
-import 'package:cloudocz_technical_test_app/config/components/bouncing_button_widget.dart';
-import 'package:cloudocz_technical_test_app/extensions/mediaquery_extension.dart';
-import 'package:cloudocz_technical_test_app/features/home/view_model/homescreen_view_model.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:cloudocz_technical_test_app/features/home/view_model/homescreen_view_model.dart';
 
 class Taskpage extends StatelessWidget {
   Taskpage({
@@ -24,102 +22,135 @@ class Taskpage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    double scrWidth = context.mediaQueryWidth;
-    double scrHeight = context.mediaQueryHeight;
+    double scrWidth = MediaQuery.of(context).size.width;
+    final deleteLoading = context.watch<HomescreenViewModel>().deleteLoading;
+
     return AlertDialog(
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(16),
+      ),
+      title: const Center(
+        child: Text(
+          "Task Details",
+          style: TextStyle(
+            fontSize: 22,
+            fontWeight: FontWeight.bold,
+          ),
+        ),
+      ),
       content: SizedBox(
-        height: scrHeight * 0.4,
-        width: scrWidth * 0.7,
+        width: scrWidth * 0.8,
         child: Column(
-          crossAxisAlignment: CrossAxisAlignment.center,
+          mainAxisSize: MainAxisSize.min,
+          crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Text(name),
-            Text(desc),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                const Text("Status: "),
-                Text(
-                  status.toUpperCase(),
-                  style: context.textTheme.bodyMedium?.copyWith(
-                    color: status == "incomplete" ? Colors.red : Colors.green,
-                  ),
-                ),
-                SizedBox(width: scrWidth * 0.03),
-                Text('$percentage%'),
-              ],
+            _infoRow(
+              icon: Icons.assignment,
+              label: "Task Name",
+              value: name,
             ),
-            _bottomButtons(scrHeight, scrWidth, context),
+            const SizedBox(height: 15),
+            _infoRow(
+              icon: Icons.description_outlined,
+              label: "Description",
+              value: desc,
+            ),
+            const SizedBox(height: 15),
+            _infoRow(
+              icon: Icons.flag_outlined,
+              label: "Status",
+              value: status.toUpperCase(),
+              valueStyle: TextStyle(
+                color: status == "incomplete" ? Colors.red : Colors.green,
+                fontWeight: FontWeight.bold,
+              ),
+            ),
+            const SizedBox(height: 15),
+            _infoRow(
+              icon: Icons.percent,
+              label: "Completion",
+              value: "$percentage%",
+            ),
           ],
         ),
       ),
-    );
-  }
-
-  Row _bottomButtons(double scrHeight, double scrWidth, BuildContext context) {
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.spaceAround,
-      children: [
-        GestureDetector(
-          onTap: () {
-            Navigator.of(context).pop(); // Close the dialog
-            _showTaskEditBottomSheet(context);
-          },
-          child: Container(
-            height: scrHeight * 0.045,
-            width: scrWidth * 0.3,
-            decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(10),
-              border: Border.all(color: Colors.black),
-            ),
-            child: Center(
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Text(
-                    "Edit  ",
-                    style: context.textTheme.bodyMedium?.copyWith(
-                      color: Colors.black,
-                    ),
-                  ),
-                  const Icon(
-                    Icons.edit,
-                    size: 16,
-                  ),
-                ],
-              ),
-            ),
-          ),
-        ),
-        BouncingButtonWidget(
-          child: GestureDetector(
-            onTap: () {
-              context.read<HomescreenViewModel>().deleteTask(id, context);
-            },
-            child: Container(
-              height: scrHeight * 0.045,
-              width: scrWidth * 0.3,
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(10),
-                color: Colors.red,
-              ),
-              child: Center(
-                child: Text(
-                  "Delete",
-                  style: context.textTheme.bodyMedium?.copyWith(
-                    color: Colors.white,
-                  ),
+      actions: [
+        Row(
+          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+          children: [
+            // Edit Button
+            TextButton.icon(
+              onPressed: () {
+                _showEditBottomSheet(context);
+              },
+              icon: const Icon(Icons.edit, color: Colors.blue),
+              label: const Text(
+                "Edit",
+                style: TextStyle(
+                  color: Colors.blue,
+                  fontWeight: FontWeight.bold,
                 ),
               ),
             ),
-          ),
+            // Delete Button
+            deleteLoading
+                ? const Center(
+                    child: Column(
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        CircularProgressIndicator(
+                          strokeWidth: 3,
+                          color: Colors.red,
+                        ),
+                        SizedBox(height: 8),
+                        Text(
+                          "Deleting...",
+                          style: TextStyle(
+                            fontSize: 14,
+                            fontWeight: FontWeight.w500,
+                            color: Colors.red,
+                          ),
+                        ),
+                      ],
+                    ),
+                  )
+                : ElevatedButton(
+                    onPressed: () {
+                      context
+                          .read<HomescreenViewModel>()
+                          .deleteTask(id, context);
+                    },
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: Colors.redAccent,
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(10),
+                      ),
+                      padding: const EdgeInsets.symmetric(
+                          horizontal: 16, vertical: 12),
+                    ),
+                    child: const Row(
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        Icon(Icons.delete, color: Colors.white),
+                        SizedBox(width: 8),
+                        Text(
+                          "Delete",
+                          style: TextStyle(
+                            fontSize: 16,
+                            fontWeight: FontWeight.bold,
+                            color: Colors.white,
+                          ),
+                        ),
+                      ],
+                    ),
+                  )
+          ],
         ),
       ],
     );
   }
 
-  /// Displays a BottomSheet for updating the task
-  void _showTaskEditBottomSheet(BuildContext context) {
+  void _showEditBottomSheet(BuildContext context) {
     final homescreenViewModel =
         Provider.of<HomescreenViewModel>(context, listen: false);
 
@@ -128,7 +159,7 @@ class Taskpage extends StatelessWidget {
       description: desc,
       status: status,
       percentage: percentage,
-      deadline: '', // Pass deadline if available
+      deadline: '', // Initialize the deadline field if needed
     );
 
     showModalBottomSheet(
@@ -146,122 +177,267 @@ class Taskpage extends StatelessWidget {
             bottom: MediaQuery.of(context).viewInsets.bottom,
           ),
           child: Form(
-            key: _formKey, // Attach the form key
-            child: Column(
-              mainAxisSize: MainAxisSize.min,
-              crossAxisAlignment: CrossAxisAlignment.start,
+            key: _formKey,
+            child: Stack(
               children: [
-                const Text(
-                  "Update Task",
-                  style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
-                ),
-                const SizedBox(height: 10),
-                TextFormField(
-                  controller:
-                      homescreenViewModel.taskControllerManager.nameController,
-                  decoration: const InputDecoration(
-                    labelText: "Task Name",
-                    border: OutlineInputBorder(),
-                  ),
-                  validator: (value) {
-                    if (value == null || value.isEmpty) {
-                      return 'Task Name is required';
-                    }
-                    return null;
-                  },
-                ),
-                const SizedBox(height: 10),
-                TextFormField(
-                  controller: homescreenViewModel
-                      .taskControllerManager.descriptionController,
-                  decoration: const InputDecoration(
-                    labelText: "Description",
-                    border: OutlineInputBorder(),
-                  ),
-                  validator: (value) {
-                    if (value == null || value.isEmpty) {
-                      return 'Description is required';
-                    }
-                    return null;
-                  },
-                ),
-                const SizedBox(height: 10),
-                TextFormField(
-                  controller:
-                      homescreenViewModel.taskControllerManager.statusController,
-                  decoration: const InputDecoration(
-                    labelText: "Status",
-                    border: OutlineInputBorder(),
-                  ),
-                ),
-                const SizedBox(height: 10),
-                TextFormField(
-                  controller: homescreenViewModel
-                      .taskControllerManager.percentageController,
-                  decoration: const InputDecoration(
-                    labelText: "Percentage",
-                    border: OutlineInputBorder(),
-                  ),
-                  keyboardType: TextInputType.number,
-                ),
-                const SizedBox(height: 10),
-                GestureDetector(
-                  onTap: () async {
-                    final selectedDate = await showDatePicker(
-                      context: context,
-                      initialDate: DateTime.now(),
-                      firstDate: DateTime.now(),
-                      lastDate: DateTime.now().add(const Duration(days: 365)),
-                    );
-                    if (selectedDate != null) {
-                      homescreenViewModel
-                          .taskControllerManager.deadlineController.text =
-                          selectedDate.toIso8601String().split('T')[0];
-                    }
-                  },
-                  child: AbsorbPointer(
-                    child: TextFormField(
-                      controller: homescreenViewModel
-                          .taskControllerManager.deadlineController,
-                      decoration: const InputDecoration(
-                        labelText: "Deadline (Select Date)",
-                        border: OutlineInputBorder(),
-                      ),
-                      validator: (value) {
-                        if (value == null || value.isEmpty) {
-                          return 'Deadline is required';
-                        }
-                        return null;
-                      },
-                    ),
-                  ),
-                ),
-                const SizedBox(height: 20),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.end,
+                Column(
+                  mainAxisSize: MainAxisSize.min,
+                  crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    TextButton(
-                      onPressed: () {
-                        homescreenViewModel.taskControllerManager.clearControllers();
-                        Navigator.of(context).pop();
-                      },
-                      child: const Text("Cancel"),
+                    Center(
+                      child: Container(
+                        width: 40,
+                        height: 4,
+                        margin: const EdgeInsets.symmetric(vertical: 8),
+                        decoration: BoxDecoration(
+                          color: Colors.grey[300],
+                          borderRadius: BorderRadius.circular(20),
+                        ),
+                      ),
                     ),
-                    ElevatedButton(
-                      onPressed: () {
-                        if (_formKey.currentState!.validate()) {
-                          homescreenViewModel.updateTask(id, context);
-                        }
-                      },
-                      child: const Text("Update"),
+                    const Text(
+                      "Edit Task",
+                      style: TextStyle(
+                        fontSize: 22,
+                        fontWeight: FontWeight.bold,
+                      ),
                     ),
+                    const SizedBox(height: 20),
+                    // Task Details Card
+                    Card(
+                      elevation: 2,
+                      margin: EdgeInsets.zero,
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(12),
+                      ),
+                      child: Padding(
+                        padding: const EdgeInsets.all(12.0),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            TextFormField(
+                              controller: homescreenViewModel
+                                  .taskControllerManager.nameController,
+                              decoration: InputDecoration(
+                                labelText: "Task Name",
+                                prefixIcon: const Icon(Icons.task),
+                                border: OutlineInputBorder(
+                                  borderRadius: BorderRadius.circular(8),
+                                ),
+                              ),
+                              validator: (value) {
+                                if (value == null || value.trim().isEmpty) {
+                                  return "Please enter a task name";
+                                }
+                                return null;
+                              },
+                            ),
+                            const SizedBox(height: 10),
+                            TextFormField(
+                              controller: homescreenViewModel
+                                  .taskControllerManager.descriptionController,
+                              maxLines: 3,
+                              decoration: InputDecoration(
+                                labelText: "Description",
+                                prefixIcon: const Icon(Icons.description),
+                                border: OutlineInputBorder(
+                                  borderRadius: BorderRadius.circular(8),
+                                ),
+                              ),
+                              validator: (value) {
+                                if (value == null || value.trim().isEmpty) {
+                                  return "Please enter a description";
+                                }
+                                return null;
+                              },
+                            ),
+                          ],
+                        ),
+                      ),
+                    ),
+                    const SizedBox(height: 20),
+                    // Task Progress & Deadline Card
+                    Card(
+                      elevation: 2,
+                      margin: EdgeInsets.zero,
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(12),
+                      ),
+                      child: Padding(
+                        padding: const EdgeInsets.all(12.0),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            TextFormField(
+                              controller: homescreenViewModel
+                                  .taskControllerManager.statusController,
+                              decoration: InputDecoration(
+                                labelText: "Status",
+                                prefixIcon: const Icon(Icons.timeline),
+                                border: OutlineInputBorder(
+                                  borderRadius: BorderRadius.circular(8),
+                                ),
+                              ),
+                              validator: (value) {
+                                if (value == null || value.trim().isEmpty) {
+                                  return "Please enter a status";
+                                }
+                                return null;
+                              },
+                            ),
+                            const SizedBox(height: 10),
+                            TextFormField(
+                              controller: homescreenViewModel
+                                  .taskControllerManager.percentageController,
+                              decoration: InputDecoration(
+                                labelText: "Percentage",
+                                prefixIcon: const Icon(Icons.percent),
+                                border: OutlineInputBorder(
+                                  borderRadius: BorderRadius.circular(8),
+                                ),
+                              ),
+                              keyboardType: TextInputType.number,
+                              validator: (value) {
+                                if (value == null || value.trim().isEmpty) {
+                                  return "Please enter a percentage";
+                                }
+                                final percentage = int.tryParse(value);
+                                if (percentage == null ||
+                                    percentage < 0 ||
+                                    percentage > 100) {
+                                  return "Please enter a valid percentage (0-100)";
+                                }
+                                return null;
+                              },
+                            ),
+                            const SizedBox(height: 10),
+                            GestureDetector(
+                              onTap: () async {
+                                final selectedDate = await showDatePicker(
+                                  context: context,
+                                  initialDate: DateTime.now(),
+                                  firstDate: DateTime.now(),
+                                  lastDate: DateTime.now()
+                                      .add(const Duration(days: 365)),
+                                );
+                                if (selectedDate != null) {
+                                  homescreenViewModel.taskControllerManager
+                                          .deadlineController.text =
+                                      selectedDate
+                                          .toIso8601String()
+                                          .split('T')[0];
+                                }
+                              },
+                              child: AbsorbPointer(
+                                child: TextFormField(
+                                  controller: homescreenViewModel
+                                      .taskControllerManager.deadlineController,
+                                  decoration: InputDecoration(
+                                    labelText: "Deadline",
+                                    prefixIcon: const Icon(Icons.date_range),
+                                    border: OutlineInputBorder(
+                                      borderRadius: BorderRadius.circular(8),
+                                    ),
+                                  ),
+                                  validator: (value) {
+                                    if (value == null || value.trim().isEmpty) {
+                                      return "Please select a deadline";
+                                    }
+                                    return null;
+                                  },
+                                ),
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                    ),
+                    const SizedBox(height: 80), // Space for buttons
                   ],
+                ),
+                Positioned(
+                  bottom: 0,
+                  left: 0,
+                  right: 0,
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      TextButton.icon(
+                        onPressed: () {
+                          homescreenViewModel.taskControllerManager
+                              .clearControllers();
+                          Navigator.of(context).pop();
+                        },
+                        icon: const Icon(Icons.cancel_outlined,
+                            color: Colors.red),
+                        label: const Text(
+                          "Cancel",
+                          style: TextStyle(color: Colors.red),
+                        ),
+                      ),
+                      ElevatedButton.icon(
+                        onPressed: () {
+                          if (_formKey.currentState!.validate()) {
+                            homescreenViewModel.updateTask(id, context);
+                            Navigator.of(context).pop();
+                          }
+                        },
+                        icon: const Icon(Icons.save),
+                        label: const Text("Save Task"),
+                        style: ElevatedButton.styleFrom(
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(12),
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
                 ),
               ],
             ),
           ),
         );
       },
+    );
+  }
+
+  Widget _infoRow({
+    required IconData icon,
+    required String label,
+    required String value,
+    TextStyle? valueStyle,
+  }) {
+    return Row(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Icon(icon, color: Colors.grey, size: 20),
+        const SizedBox(width: 10),
+        Expanded(
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text(
+                label,
+                style: const TextStyle(
+                  fontSize: 14,
+                  color: Colors.grey,
+                  fontWeight: FontWeight.w500,
+                ),
+              ),
+              const SizedBox(height: 5),
+              Text(
+                value,
+                style: valueStyle ??
+                    const TextStyle(
+                      fontSize: 14,
+                      fontWeight: FontWeight.w600,
+                      color: Colors.black,
+                    ),
+              ),
+            ],
+          ),
+        ),
+      ],
     );
   }
 }

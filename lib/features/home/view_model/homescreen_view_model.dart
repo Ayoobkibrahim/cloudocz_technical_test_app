@@ -9,12 +9,16 @@ class HomescreenViewModel extends ChangeNotifier {
 
   final TaskControllerManager taskControllerManager = TaskControllerManager();
 
-  List<TaskData> _taskList = [];
-  List<TaskData> get taskList => _taskList;
+  List<TaskData>? _taskList;
+  List<TaskData>? get taskList => _taskList;
+
+  bool _deleteLoading = false;
+
+  bool get deleteLoading => _deleteLoading;
 
   Future<void> fetchTask() async {
     try {
-      _taskList = [];
+      _taskList = null;
       final response = await taskService.fetchTasks();
       log(response.toString());
       _taskList = response;
@@ -24,16 +28,26 @@ class HomescreenViewModel extends ChangeNotifier {
     notifyListeners();
   }
 
+  void setLoading(bool val) {
+    _deleteLoading = val;
+    notifyListeners();
+  }
+
   Future<void> deleteTask(int id, BuildContext context) async {
+    setLoading(true);
+
     try {
       final response = await taskService.deleteTask(id);
       if (response == true) {
-        await fetchTask();
         Navigator.of(context).pop();
+        setLoading(false);
+        await fetchTask();
       }
     } catch (e) {
-      fetchTask();
+      setLoading(false);
     }
+
+    log(_deleteLoading.toString());
     notifyListeners();
   }
 

@@ -1,4 +1,4 @@
-import 'package:cloudocz_technical_test_app/extensions/mediaquery_extension.dart';
+import 'package:cloudocz_technical_test_app/config/extensions/mediaquery_extension.dart';
 import 'package:cloudocz_technical_test_app/features/authentication/view_model/login_view_model.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
